@@ -1,3 +1,4 @@
+import joblib
 import numpy as np
 from pyitlib import discrete_random_variable as drv
 from numpy import log2 as log
@@ -174,4 +175,7 @@ def ID3_algorithm(train, test, structFile):
     attrList = list(attributes.keys())
     attrList.remove('class')
     Decision_tree = buildTree({}, train, attributes, attrList)
+    # save model to file
+    filename = 'ID3_model.sav'
+    joblib.dump(Decision_tree, filename)
     result(fun(Decision_tree, test), list(test['class']))
