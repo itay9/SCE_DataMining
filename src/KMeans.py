@@ -110,7 +110,7 @@ def kMean(data,cluster = 4,dimension = 1):
     @param data: list of data
     @param cluster: number of cluster, default = 4
     @param dimension: number of dimension to data, default=1
-    @return:
+    @return: list of K-Mean Cluster
     """
     kmeans = KMeans(n_clusters=cluster)
     if dimension==1:#fix 1D bug
