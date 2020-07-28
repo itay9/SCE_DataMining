@@ -6,26 +6,36 @@ from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
 def makeZero(dataSet):
+    """
+
+    @param dataSet: list of data
+    @return: list of zero in size of dataSet
+    """
     arr = []
     size = len(dataSet)
     for i in range(size):
         arr.append(0)
     return arr
 
-def makeone(dataSet):
-    arr = []
-    size = len(dataSet)
-    for i in range(size):
-        arr.append(1)
-    return arr
 
 def makeCenterList(data):
+    """
+
+    @param data: list of CenterPoint for 1D K-Means
+    @return: fixed list of center
+    """
     newData =[]
     for i in range(len(data)):
         newData.append(int(data[i][0]))
     return newData
 
 def makePoint(data1,data2):
+    """
+
+    @param data1: list of X value
+    @param data2: list of Y value
+    @return: list of XY value
+    """
     result = []
     for i in range(len(data1)):
         result.append((data1[i],data2[i]))
@@ -35,6 +45,12 @@ def makePoint(data1,data2):
 
 
 def makeRandomPointList(numOfPoint):
+    """
+    generate random point 0<=x,y<=100
+
+    @param numOfPoint: number of point to generate
+    @return: list of numOfPoint points (x,y)
+    """
     data = []
     for i in range(numOfPoint):
         data.append((randint(0,100),(randint(0,100))))
@@ -42,7 +58,7 @@ def makeRandomPointList(numOfPoint):
 
 def makeXYlist(data):
     """
-
+    split list of (x,y) to 2 lists
     @param data: list of cordinates (x,y)
     @return XY list
         [0] - list of x
