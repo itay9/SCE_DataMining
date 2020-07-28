@@ -1,5 +1,5 @@
 from sklearn.tree import DecisionTreeClassifier
-from functions import Discretize,fit_transforms
+from src.functions import Discretize,fit_transforms
 
 numOfBins=3
 def ID3SKlearn_algorithm(train,test,structure):
