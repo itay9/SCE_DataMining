@@ -104,6 +104,29 @@ plt.scatter(cList[0],cList[1])
 plt.show()
 """
 
+def kMean(data,cluster = 4,dimension = 1):
+    """
+
+    @param data: list of data
+    @param cluster: number of cluster, default = 4
+    @param dimension: number of dimension to data, default=1
+    @return:
+    """
+    kmeans = KMeans(n_clusters=cluster)
+    if dimension==1:#fix 1D bug
+        kmeans.fit(makePoint(data, makeZero(data))) #tranfer to 2D
+    center = kmeans.cluster_centers_ #calc cluster center
+    if dimension==1: #fix 1D bug
+        cList = makeCenterList(center)
+    elif dimension==2:
+        cList = center
+    return cList
+
+
+
+
+
+
 
 
 
