@@ -51,12 +51,16 @@ def find_entropy_attribute(df, attribute):
 
 
 def find_winner(df):
+    """
+
+    @param df: dataFrame obj
+    @return: the max value of my entropy verification
+    """
     Entropy_att = []
     IG = []
     for key in df.keys()[:-1]:
         # Entropy_att.append(find_entropy_attribute(df,key))
         IG.append(find_entropy(df) - find_entropy_attribute(df, key))
-    # we return the max value of my entropy verification
     return df.keys()[:-1][np.argmax(IG)]
 
 
