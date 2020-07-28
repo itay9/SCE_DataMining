@@ -128,10 +128,12 @@ def kMean(data,cluster = 4):
         cList = center
     return cList
 
+#testFull
+"""
 data: List[int] = [1,2,3,8,9,10,15,16,17]
 print(kMean(data,3))
 print(kMean(makeRandomPointList(15),4))
-
+"""
 
 
 
