@@ -1,8 +1,8 @@
 import pandas as pd
 
 from src.NaiveBayes import naiveBayes
-from src.id3 import ID3_algorithm
-from src.id3SKlearn import ID3SKlearn_algorithm
+from src.Id3 import ID3_algorithm
+from src.Id3SKlearn import ID3SKlearn_algorithm
 from src.sklearnNaiveBayes import sklearnNaiveBayes
 
 structFile= 'C:/Users/ChenAzulai/jupyter/Structure.txt'
