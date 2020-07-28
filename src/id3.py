@@ -12,6 +12,11 @@ numOfBins=3
 
 
 def find_entropy(df):
+    """
+
+    @param df: dataFrame obj
+    @return: entropy value of df
+    """
     Class = df.keys()[-1]  # To make the code generic, changing target variable class name
     entropy = 0
     values = df[Class].unique()
@@ -45,7 +50,7 @@ def find_winner(df):
     for key in df.keys()[:-1]:
         # Entropy_att.append(find_entropy_attribute(df,key))
         IG.append(find_entropy(df) - find_entropy_attribute(df, key))
-    # we return the max value of my entropy verifica tion
+    # we return the max value of my entropy verification
     return df.keys()[:-1][np.argmax(IG)]
 
 
