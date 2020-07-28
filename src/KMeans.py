@@ -72,6 +72,7 @@ def makeXYlist(data):
     result = [xList,yList]
     return result
 
+#Test
 #make single line K-Mean
 """
 data: List[int] = [1,2,3,8,9,10,15,16,17]
