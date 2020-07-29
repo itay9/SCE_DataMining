@@ -7,7 +7,20 @@ import matplotlib.pyplot as plt
 from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 from sklearn.feature_extraction import DictVectorizer
 
+from src.functions import getColumnTitles, Discretize
+
 numOfBins = 3
+
+
+
+def numericCol(table, structureTextFile):
+    structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
+    column = []
+    headers = getColumnTitles(table)
+    for i in range(structure.shape[0]):
+        if 'NUMERIC' in structure.loc[i]['data']:
+            column += [headers[i]]
+    return column
 
 def Encode(train,Structure):
     # creating labelEncoder

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
+from src.functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 
 
 # column=['campaign','previous','age','balance','day','duration']
