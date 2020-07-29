@@ -6,11 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction import DictVectorizer
 
+from src.functions import getColumnTitles, Discretize
+
 numOfBins = 3
 
-
-def getColumnTitles(table):
-    return list(table.columns)
 
 
 def numericCol(table, structureTextFile):
@@ -23,13 +22,6 @@ def numericCol(table, structureTextFile):
     return column
 
 
-def Discretize(num, table, structureTextFile):
-    column = numericCol(table, structureTextFile)
-    for col in column:
-        table[col] = pd.qcut(table[col], num, labels=False, duplicates='drop')
-        table = table.fillna(table.mode().iloc[0])
-        table = table.applymap(lambda s: s.lower() if type(s) == str else s)
-    return table
 
 
 def Encode(train,Structure):
