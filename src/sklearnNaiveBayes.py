@@ -1,4 +1,4 @@
-from functions import getColumnTitles, Discretize
+from src.functions import getColumnTitles, Discretize
 from sklearn.naive_bayes import GaussianNB
 from sklearn import preprocessing
 numOfBins=3
