@@ -1,9 +1,10 @@
 import pandas as pd
+
 from src.NaiveBayes import naiveBayes
 from src.KNNClassifier import KNNClassifier
 from src.id3 import ID3_algorithm
 from src.id3SKlearn import ID3SKlearn_algorithm
-from src.sklearnNaiveBayes import sklearnNaiveBayes
+NaiveBayes import sklearnNaiveBayes
 
 structFile= 'C:/Users/ChenAzulai/jupyter/Structure.txt'
 trainFile="C:/Users/ChenAzulai/jupyter/train.csv"

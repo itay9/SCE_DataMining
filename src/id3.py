@@ -1,17 +1,25 @@
+import joblib
 import numpy as np
 from pyitlib import discrete_random_variable as drv
 from numpy import log2 as log
+
 from src.functions import Discretize
+
 eps = np.finfo(float).eps
 
-numOfBins=3
+numOfBins = 3
 
 
-#def ig(e_dataset, e_attr):
+# def ig(e_dataset, e_attr):
 #    return (e_dataset - e_attr)
 
 
 def find_entropy(df):
+    """
+
+    @param df: dataFrame obj
+    @return: entropy value of df
+    """
     Class = df.keys()[-1]  # To make the code generic, changing target variable class name
     entropy = 0
     values = df[Class].unique()
@@ -22,6 +30,12 @@ def find_entropy(df):
 
 
 def find_entropy_attribute(df, attribute):
+    """
+
+    @param df: dataFrame obj
+    @param attribute: string of specific attribute
+    @return: entropy of attribute
+    """
     Class = df.keys()[-1]  # To make the code generic, changing target variable class name
     target_variables = df[Class].unique()  # This gives all 'Yes' and 'No'
     variables = df[
@@ -40,16 +54,28 @@ def find_entropy_attribute(df, attribute):
 
 
 def find_winner(df):
+    """
+
+    @param df: dataFrame obj
+    @return: the max value of my entropy verification
+    """
     Entropy_att = []
     IG = []
     for key in df.keys()[:-1]:
         # Entropy_att.append(find_entropy_attribute(df,key))
         IG.append(find_entropy(df) - find_entropy_attribute(df, key))
-    # we return the max value of my entropy verifica tion
     return df.keys()[:-1][np.argmax(IG)]
 
 
 def bestIGattr(data, attributes, toSplit=False):
+    # TODO chen please fill this docString
+    """
+
+    @param data:
+    @param attributes:
+    @param toSplit:
+    @return:
+    """
     classEntropy = drv.entropy(data['class']).item(0)
     attrsIG = {}
     for attr in attributes:
@@ -59,6 +85,7 @@ def bestIGattr(data, attributes, toSplit=False):
         if attrsIG[attr] == maxGain:
             return attr
 
+
 def Build_Dict(data):
     attributes = {}
     for i in data:
@@ -67,22 +94,23 @@ def Build_Dict(data):
         if i.split()[2] == 'NUMERIC':
             field = list(range(numOfBins))
         else:
-            field = x.replace('{','').replace('}','').split(',')
-        attributes[attr]=field
+            field = x.replace('{', '').replace('}', '').split(',')
+        attributes[attr] = field
     return attributes
 
-def buildTree(classDict, data, attributes, attrList, toSplit = False,numNodes = 100):
-    if len(data['class'])<=numNodes and len(data['class'])>0:
+
+def buildTree(classDict, data, attributes, attrList, toSplit=False, numNodes=100):
+    if len(data['class']) <= numNodes and len(data['class']) > 0:
         return data['class'].mode().iloc[0]
     else:
         if len(attrList) > 0:
-            bestOp =bestIGattr(data,attrList,toSplit)
-            classDict[bestOp]={}
+            bestOp = bestIGattr(data, attrList, toSplit)
+            classDict[bestOp] = {}
             for val in attributes[bestOp]:
                 if len(data.loc[data[bestOp] == val]) > 0 and len(attrList) > 0:
                     newAttrsList = attrList.copy()
                     newAttrsList.remove(bestOp)
-                    classDict[bestOp][val] = buildTree({},data.loc[data[bestOp] == val],attributes,newAttrsList)
+                    classDict[bestOp][val] = buildTree({}, data.loc[data[bestOp] == val], attributes, newAttrsList)
             return classDict
         else:
             return data['class'].mode().iloc[0]
@@ -136,16 +164,19 @@ def result(arrayExpected, arrayTest):
                 match += 1
             else:
                 fail += 1
-    #print('Matched values:', match)
-    #print('NON-Matched:', fail)
+    # print('Matched values:', match)
+    # print('NON-Matched:', fail)
     print('ID3 Accuracy:', (match / (match + fail)), '%')
 
-def ID3_algorithm(train,test,structFile):
+
+def ID3_algorithm(train, test, structFile):
     train = Discretize(numOfBins, train, structFile)
     test = Discretize(numOfBins, test, structFile)
     attributes = Build_Dict(open(structFile))
-    attrList= list(attributes.keys())
+    attrList = list(attributes.keys())
     attrList.remove('class')
-    Decision_tree = buildTree({},train,attributes,attrList)
+    Decision_tree = buildTree({}, train, attributes, attrList)
+    # save model to file
+    filename = 'ID3_model.sav'
+    joblib.dump(Decision_tree, filename)
     result(fun(Decision_tree, test), list(test['class']))
-
