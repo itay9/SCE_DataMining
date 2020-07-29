@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
+from src.functions import Discretize, getColumnTitles
+
+
 def makeZero(dataSet):
     """
 
@@ -143,7 +146,11 @@ def K_Means(train, test,struct):
     @return:
     """
     numOfCluster = (int)
-
+    numOfCluster = 5
+    train = Discretize(numOfCluster,train,struct)
+    test = Discretize(numOfCluster,test,struct)
+    column = getColumnTitles(train)
+    numOfColumn = len(column)
 
     
 
