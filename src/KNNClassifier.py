@@ -4,6 +4,7 @@ from sklearn import preprocessing
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 from sklearn.feature_extraction import DictVectorizer
 
 from src.functions import getColumnTitles, Discretize
@@ -18,9 +19,6 @@ def numericCol(table, structureTextFile):
         if 'NUMERIC' in structure.loc[i]['data']:
             column += [headers[i]]
     return column
-
-
-
 
 def Encode(train,Structure):
     # creating labelEncoder
