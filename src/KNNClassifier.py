@@ -10,8 +10,6 @@ from src.functions import getColumnTitles, Discretize
 
 numOfBins = 3
 
-
-
 def numericCol(table, structureTextFile):
     structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
     column = []

@@ -16,9 +16,10 @@ def Discretize(num, table, structureTextFile):
         return column
     column = numericCol(table, structureTextFile)
     table = table.applymap(lambda s: s.lower() if type(s) == str else s)
+    table=table.dropna(subset=['class'])#drop the rows with the NaN values in 'class' column
     for col in column:
-        table[col] = pd.qcut(table[col], num, labels=False, duplicates='drop')
-    table = table.fillna(table.mode().iloc[0])
+        table[col] = pd.qcut(table[col], num, labels=False, duplicates='drop')#Discretize variable into equal-sized buckets
+    table = table.fillna(table.mode().iloc[0])#fillna with value that appears most often of Each Column
     # table.fillna(-1, inplace=True)
     # table.apply(lambda x: x.astype(str).str.lower())
     #table = table.applymap(lambda s: s.lower() if type(s) == str else s)
@@ -56,3 +57,4 @@ def fit_transforms(table):
         except:
             continue
     return table
+
