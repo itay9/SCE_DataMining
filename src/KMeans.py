@@ -136,13 +136,16 @@ print(kMean(makeRandomPointList(15),4))
 """
 def K_Means(train, test,struct):
     """
-
+    check k means for each
     @param train:  cvs file for training the module
     @param test:  cvs file for testing the module
     @param struct: text file of the cvs structure
     @return:
     """
+    numOfCluster = (int)
 
+
+    
 
 
 
