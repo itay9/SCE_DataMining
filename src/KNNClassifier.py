@@ -4,33 +4,10 @@ from sklearn import preprocessing
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 from sklearn.feature_extraction import DictVectorizer
 
 numOfBins = 3
-
-
-def getColumnTitles(table):
-    return list(table.columns)
-
-
-def numericCol(table, structureTextFile):
-    structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
-    column = []
-    headers = getColumnTitles(table)
-    for i in range(structure.shape[0]):
-        if 'NUMERIC' in structure.loc[i]['data']:
-            column += [headers[i]]
-    return column
-
-
-def Discretize(num, table, structureTextFile):
-    column = numericCol(table, structureTextFile)
-    for col in column:
-        table[col] = pd.qcut(table[col], num, labels=False, duplicates='drop')
-        table = table.fillna(table.mode().iloc[0])
-        table = table.applymap(lambda s: s.lower() if type(s) == str else s)
-    return table
-
 
 def Encode(train,Structure):
     # creating labelEncoder
