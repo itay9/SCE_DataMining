@@ -1,5 +1,4 @@
-import joblib
-from src.Functions import getColumnTitles, Discretize
+from functions import getColumnTitles, Discretize
 from sklearn.naive_bayes import GaussianNB
 from sklearn import preprocessing
 numOfBins=3
@@ -27,11 +26,5 @@ def sklearnNaiveBayes(test, train,structure):
 
     inputs_train=fit_transforms(inputs_train)
     model.fit(inputs_train,target_train)
-
-    #save model to file
-    filename='NaiveBayesSKlearn_model.sav'
-    joblib.dump(model,filename)
-
-
     inputs_test=fit_transforms(inputs_test)
-    print("SKlearnNaiveBayes accuracy:",model.score(inputs_test,target_test),"%")
+    print("sklearnNaiveBayes accuracy:",model.score(inputs_test,target_test),"%")

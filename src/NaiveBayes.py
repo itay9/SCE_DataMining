@@ -1,7 +1,6 @@
-import joblib
 import pandas as pd
 
-from src.Functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
+from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 
 
 # column=['campaign','previous','age','balance','day','duration']
@@ -24,11 +23,6 @@ def naiveBayes(test, train,structure):
     train = Discretize(numOfBins, train, structure)
     test = Discretize(numOfBins, test, structure)
     thisDict=allArraysOfFetures(train, 'class')
-
-    #save model to file
-    filename='naiveBayes_model.sav'
-    joblib.dump(thisDict,filename)
-
     rows = test.shape[0]
     classMatch = 0
     classDismatch = 0
