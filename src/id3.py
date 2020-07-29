@@ -16,7 +16,6 @@ numOfBins = 3
 
 def find_entropy(df):
     """
-
     @param df: dataFrame obj
     @return: entropy value of df
     """
