@@ -104,7 +104,7 @@ plt.scatter(cList[0],cList[1])
 plt.show()
 """
 
-def kMean(data,cluster = 4):
+def single_kMean(data,cluster = 4):
     """
     works for 1D and 2D data list
     @param data: list of data
@@ -134,6 +134,15 @@ data: List[int] = [1,2,3,8,9,10,15,16,17]
 print(kMean(data,3))
 print(kMean(makeRandomPointList(15),4))
 """
+def K_Means(train, test,struct):
+    """
+
+    @param train:  cvs file for training the module
+    @param test:  cvs file for testing the module
+    @param struct: text file of the cvs structure
+    @return:
+    """
+
 
 
 
