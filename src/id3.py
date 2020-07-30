@@ -1,7 +1,7 @@
 import numpy as np
 from pyitlib import discrete_random_variable as drv
 from numpy import log2 as log
-from src.functions import Discretize
+from functions import Discretize
 eps = np.finfo(float).eps
 
 numOfBins=3

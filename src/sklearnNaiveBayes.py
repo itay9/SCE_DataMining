@@ -1,4 +1,4 @@
-from src.functions import getColumnTitles, Discretize, fit_transforms
+from functions import getColumnTitles, Discretize, fit_transforms
 from sklearn.naive_bayes import GaussianNB
 from sklearn import preprocessing
 numOfBins=3

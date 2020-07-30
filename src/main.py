@@ -1,10 +1,19 @@
 import pandas as pd
-from src.NaiveBayes import naiveBayes
-from src.KNNClassifier import KNNClassifier
-from src.id3 import ID3_algorithm
-from src.id3SKlearn import ID3SKlearn_algorithm
-from src.sklearnNaiveBayes import sklearnNaiveBayes
+import sys
+from NaiveBayes import naiveBayes
+from KNNClassifier import KNNClassifier
+from id3 import ID3_algorithm
+from id3SKlearn import ID3SKlearn_algorithm
+from sklearnNaiveBayes import sklearnNaiveBayes
 
+
+"""#command line interface (CLI)
+path=sys.argv[1]
+structFile= path+'/Structure.txt'
+trainFile=path+'/train.csv'
+testFile=path+'/test.csv'
+"C:/Users/ChenAzulai/jupyter"
+"""
 structFile= 'C:/Users/ChenAzulai/jupyter/Structure.txt'
 trainFile="C:/Users/ChenAzulai/jupyter/train.csv"
 testFile="C:/Users/ChenAzulai/jupyter/test.csv"

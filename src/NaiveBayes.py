@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
+from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 
 
 numOfBins = 3
