@@ -4,7 +4,7 @@ from sklearn import preprocessing
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
+from src.functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 from sklearn.feature_extraction import DictVectorizer
 
 from src.functions import getColumnTitles, Discretize
