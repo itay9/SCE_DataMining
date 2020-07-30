@@ -1,13 +1,10 @@
 import pandas as pd
-
 import sys
 from NaiveBayes import naiveBayes
 from KNNClassifier import KNNClassifier
 from id3 import ID3_algorithm
 from id3SKlearn import ID3SKlearn_algorithm
 from sklearnNaiveBayes import sklearnNaiveBayes
-
-
 
 """#command line interface (CLI)
 path=sys.argv[1]
