@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
+from src.functions import Discretize, getColumnTitles
+
+
 def makeZero(dataSet):
     """
 
@@ -104,7 +107,7 @@ plt.scatter(cList[0],cList[1])
 plt.show()
 """
 
-def kMean(data,cluster = 4):
+def single_kMean(data,cluster = 4):
     """
     works for 1D and 2D data list
     @param data: list of data
@@ -128,10 +131,28 @@ def kMean(data,cluster = 4):
         cList = center
     return cList
 
+#testFull
+"""
 data: List[int] = [1,2,3,8,9,10,15,16,17]
 print(kMean(data,3))
 print(kMean(makeRandomPointList(15),4))
+"""
+def K_Means(train, test,struct):
+    """
+    check k means for each
+    @param train:  cvs file for training the module
+    @param test:  cvs file for testing the module
+    @param struct: text file of the cvs structure
+    @return:
+    """
+    numOfCluster = (int)
+    numOfCluster = 5
+    train = Discretize(numOfCluster,train,struct)
+    test = Discretize(numOfCluster,test,struct)
+    column = getColumnTitles(train)
+    numOfColumn = len(column)
 
+    
 
 
 
