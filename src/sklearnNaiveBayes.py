@@ -1,4 +1,4 @@
-from src.functions import getColumnTitles, Discretize
+from functions import getColumnTitles, Discretize, fit_transforms
 from sklearn.naive_bayes import GaussianNB
 from sklearn import preprocessing
 numOfBins=3
@@ -14,15 +14,6 @@ def sklearnNaiveBayes(test, train,structure):
 
     target_test=test['class']
     inputs_test=test.drop('class',axis='columns')
-
-    def fit_transforms(table):
-        columns = getColumnTitles(table)
-        for col in columns:
-            try:
-               table[col] = le.fit_transform(table[col])
-            except:
-                continue
-        return table
 
     inputs_train=fit_transforms(inputs_train)
     model.fit(inputs_train,target_train)

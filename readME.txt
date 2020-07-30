@@ -6,7 +6,11 @@ Students:
   Chen Azulay 201017159
   David Teboul 342395563 
 
-checking
 Packages:
-  -
+  - pandas
+  - numpy
+  - matplotlib
+  - sklearn
+  - typing
+  - pyitlib
 

@@ -3,7 +3,7 @@ import numpy as np
 from pyitlib import discrete_random_variable as drv
 from numpy import log2 as log
 
-from src.functions import Discretize
+from functions import Discretize
 
 eps = np.finfo(float).eps
 
@@ -16,8 +16,10 @@ numOfBins = 3
 
 def find_entropy(df):
     """
+
     @param df: dataFrame obj
     @return: entropy value of df
+
     """
     Class = df.keys()[-1]  # To make the code generic, changing target variable class name
     entropy = 0
@@ -37,8 +39,7 @@ def find_entropy_attribute(df, attribute):
     """
     Class = df.keys()[-1]  # To make the code generic, changing target variable class name
     target_variables = df[Class].unique()  # This gives all 'Yes' and 'No'
-    variables = df[
-        attribute].unique()  # This gives different features in that attribute (like 'Hot','Cold' in Temperature)
+    variables = df[attribute].unique()  # This gives different features in that attribute
     entropy2 = 0
     for variable in variables:
         entropy = 0
@@ -57,6 +58,7 @@ def find_winner(df):
 
     @param df: dataFrame obj
     @return: the max value of my entropy verification
+
     """
     Entropy_att = []
     IG = []
@@ -67,13 +69,14 @@ def find_winner(df):
 
 
 def bestIGattr(data, attributes, toSplit=False):
-    # TODO chen please fill this docString
+
     """
 
-    @param data:
-    @param attributes:
-    @param toSplit:
-    @return:
+    :param data:
+    :param attributes:
+    :param toSplit:
+    :return: best choice by gain
+
     """
     classEntropy = drv.entropy(data['class']).item(0)
     attrsIG = {}
@@ -86,6 +89,11 @@ def bestIGattr(data, attributes, toSplit=False):
 
 
 def Build_Dict(data):
+    """
+
+    :param data:
+    :return: attributes tree
+    """
     attributes = {}
     for i in data:
         attr = i.split()[1]
@@ -98,8 +106,17 @@ def Build_Dict(data):
     return attributes
 
 
-def buildTree(classDict, data, attributes, attrList, toSplit=False, numNodes=100):
-    if len(data['class']) <= numNodes and len(data['class']) > 0:
+def buildTree(classDict, data, attributes, attrList, toSplit = False,numNodes = 100):
+    """
+    :param classDict:
+    :param data:
+    :param attributes:
+    :param attrList:
+    :param toSplit:
+    :param numNodes:
+    :return: the model,tree as a dict
+    """
+    if len(data['class'])<=numNodes and len(data['class'])>0:
         return data['class'].mode().iloc[0]
     else:
         if len(attrList) > 0:
@@ -155,6 +172,11 @@ def predict(tree, subFrame):
 
 
 def result(arrayExpected, arrayTest):
+    """
+    test the model against the given test file
+    :param arrayExpected:
+    :param arrayTest:
+    """
     match = 0;
     fail = 0;
     for _ in range(len(arrayExpected)):
@@ -168,7 +190,14 @@ def result(arrayExpected, arrayTest):
     print('ID3 Accuracy:', (match / (match + fail)), '%')
 
 
-def ID3_algorithm(train, test, structFile):
+def ID3_algorithm(train,test,structFile):
+    """
+    main program
+    :param train:
+    :param test:
+    :param structFile:
+    """
+
     train = Discretize(numOfBins, train, structFile)
     test = Discretize(numOfBins, test, structFile)
     attributes = Build_Dict(open(structFile))

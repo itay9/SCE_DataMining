@@ -7,11 +7,9 @@ import matplotlib.pyplot as plt
 from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 from sklearn.feature_extraction import DictVectorizer
 
-from src.functions import getColumnTitles, Discretize
+from functions import getColumnTitles, Discretize
 
 numOfBins = 3
-
-
 
 def numericCol(table, structureTextFile):
     structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
