@@ -13,4 +13,5 @@ Packages:
   - sklearn
   - typing
   - pyitlib
+  - joblib
 

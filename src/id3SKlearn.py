@@ -16,6 +16,10 @@ def ID3SKlearn_algorithm(train,test,structure):
 
     tree=DecisionTreeClassifier(criterion='entropy',max_depth=100).fit(train_feature,train_target)
 
+    # save model to file
+    filename = 'ID3SKlearn_model.sav'
+    joblib.dump(tree, filename)
+
     prediction = tree.predict(test_feature)
 
     print("ID3SKlearn_algorithm accuracy is: ",tree.score(test_feature,test_target)*100,"%")
