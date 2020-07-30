@@ -1,3 +1,4 @@
+import joblib
 import pandas as pd
 
 from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
@@ -37,6 +38,9 @@ def naiveBayes(test, train,structure):
     rows = test.shape[0]
     classMatch = 0
     classDismatch = 0
+    # save model to file
+    filename = 'naiveBayes_model.sav'
+    joblib.dump(thisDict, filename)
 
     column = getColumnTitles(test)[:-1]  # clean 'class' column
     for _ in range(rows):
