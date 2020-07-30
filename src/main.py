@@ -6,7 +6,7 @@ from id3 import ID3_algorithm
 from id3SKlearn import ID3SKlearn_algorithm
 from sklearnNaiveBayes import sklearnNaiveBayes
 
-"""#command line interface (CLI)
+"""#command line interface (CLI) (bonus)
 path=sys.argv[1]
 structFile= path+'/Structure.txt'
 trainFile=path+'/train.csv'
