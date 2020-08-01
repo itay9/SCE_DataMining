@@ -3,6 +3,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import preprocessing
 import pandas as pd
 import numpy as np
+import joblib
 import matplotlib.pyplot as plt
 from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 from sklearn.feature_extraction import DictVectorizer
@@ -56,6 +57,14 @@ def TestTrainFitPlot(X, y):
     knn = KNeighborsClassifier()
     # Fit training data
     knn.fit(X_train, y_train)
+    # save the model to disk
+    filename = 'KNN_model.sav'
+    joblib.dump(knn, open(filename, 'wb'))
+
+    # load the model from disk
+    #loaded_model = joblib.load(open(filename, 'rb'))
+#    result = loaded_model.score(X_test, Y_test)
+    # print(result)
     # Check Accuracy Score
     print('KNN Accuracy: {}'.format(round(knn.score(X_test, y_test), 3)))
     # Enum Loop, accuracy results using range on 'n' values for KNN Classifier
