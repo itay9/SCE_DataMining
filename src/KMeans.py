@@ -255,9 +255,9 @@ def K_MeansClass(train, test,struct):
     column = numericCol(train,struct) #get column names
 
     numOfColumn = len(column)
-    numOfRow = len(train)
     train = train.dropna() #remove NaN raws
-
+    train = train.reset_index(drop=True)
+    numOfRow = len(train)
     numericColList = getColList(train,column) #list of numeric value
     kMeanDict = {}
     for i in range(numOfColumn):
@@ -292,9 +292,7 @@ def K_MeansClass(train, test,struct):
         row = test.loc[19,:] # getRow
         if getClass(classDict,row,column,kMeanDict) == test['class'][i]:
             yes+=1
-
     print("success rate for K-Means is: ",(yes/len(test))*100,"%")
-
 
 
 
