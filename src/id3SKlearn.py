@@ -1,5 +1,5 @@
 from sklearn.tree import DecisionTreeClassifier
-from src.functions import Discretize,fit_transforms
+from functions import Discretize,fit_transforms
 
 numOfBins=3
 def ID3SKlearn_algorithm(train,test,structure):
@@ -15,6 +15,10 @@ def ID3SKlearn_algorithm(train,test,structure):
     test_feature=test.drop('class', axis='columns')
 
     tree=DecisionTreeClassifier(criterion='entropy',max_depth=100).fit(train_feature,train_target)
+
+    # save model to file
+    filename = 'ID3SKlearn_model.sav'
+    joblib.dump(tree, filename)
 
     prediction = tree.predict(test_feature)
 

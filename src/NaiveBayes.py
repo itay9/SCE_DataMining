@@ -1,14 +1,20 @@
+import joblib
 import pandas as pd
 
-from src.functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
+from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
 
 
-# column=['campaign','previous','age','balance','day','duration']
 numOfBins = 3
 
 
 
-def allArraysOfFetures(table, classCol):  # dict, keys is tuple(column,'yes'/'no'),values is list [p(columnValue|class),...]
+def allArraysOfFetures(table, classCol):
+    """
+
+    :param table:
+    :param classCol:
+    :return: dict, keys is tuple(feature,'yes'/'no'),values is list of probabilities of the values of the key
+    """
     thisDict = {}
     for i in getColumnTitles(table):
         if i not in classCol:
@@ -20,12 +26,21 @@ def allArraysOfFetures(table, classCol):  # dict, keys is tuple(column,'yes'/'no
 #thisDict = allArraysOfFetures(train, 'class')
 
 def naiveBayes(test, train,structure):
+    """
+    print the accuracy of the model by test file
+    :param test:
+    :param train:
+    :param structure:
+    """
     train = Discretize(numOfBins, train, structure)
     test = Discretize(numOfBins, test, structure)
     thisDict=allArraysOfFetures(train, 'class')
     rows = test.shape[0]
     classMatch = 0
     classDismatch = 0
+    # save model to file
+    filename = 'naiveBayes_model.sav'
+    joblib.dump(thisDict, filename)
 
     column = getColumnTitles(test)[:-1]  # clean 'class' column
     for _ in range(rows):
@@ -54,4 +69,3 @@ def naiveBayes(test, train,structure):
     print('naiveBayes accuracy:', (classMatch / rows), '%')
 
 
-#naiveBayes(test,train)
