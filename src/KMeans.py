@@ -1,7 +1,6 @@
-from typing import List
-
 import numpy as np
 import matplotlib.pyplot as plt
+
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
@@ -112,6 +111,7 @@ def numericCol(table, structureTextFile):
     structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
     column = []
     headers = getColumnTitles(table)
+
     for i in range(structure.shape[0]):
         if 'NUMERIC' in structure.loc[i]['data']:
             column += [headers[i]]
@@ -124,59 +124,123 @@ def single_kMean(data,cluster = 4):
     @param cluster: number of cluster, default = 4
     @return: list of K-Mean Cluster
     """
-    if isinstance(data[0],int):
-        dimension = 1
+    #if isinstance(data[0],int):
+    dimension = 1
+    """
     else:
-        dimension = 2
+        dimension = 2"""
     cList = []
     kmeans = KMeans(n_clusters=cluster)
-    if dimension==1:#fix 1D bug
-        kmeans.fit(makePoint(data, makeZero(data))) #tranfer to 2D
-    else:
-        kmeans.fit(data)
+    #if dimension==1:#fix 1D bug
+    kmeans.fit(makePoint(data, makeZero(data))) #tranfer to 2D
+    """else:
+        kmeans.fit(data)"""
     center = kmeans.cluster_centers_  #calc cluster center
-    if dimension==1: #fix 1D bug
-        cList = makeCenterList(center)
-    elif dimension==2:
-        cList = center
+   # if dimension==1: #fix 1D bug
+    cList = makeCenterList(center)
+    """elif dimension==2:
+        cList = center"""
     return cList
 
-def makeColDict(columns):
+def makeColDict(columns,cluster):
     """
 
     :param columns: dict of columns name and class count
+    :param cluster : dict of cluster center
     :return: dict of colName : yes no count
     """
     colDict = {}
+    tmpDict = {}
     for col in columns:
-        colDict[col] = {'yes': 0, 'no': 0}
+        for val in cluster[col]:
+            tmpDict[val] = {'yes' : 0,'no':0}
+        colDict[col] = tmpDict
+
     return colDict
 
-def incYes(dict,col):
+def incYes(dict,col,center):
     """
 
     :param dict: counter dict
     :param col: column name for inc
     :return: adding 1 yo yesClass count
     """
-    dict[col]['yes'] +=1
+    dict[col][center]['yes'] +=1
 
-def incNo(dict,col):
+def incNo(dict,col,center):
     """
 
         :param dict: counter dict
         :param col: column name for inc
         :return: adding 1 to noClass count
         """
-    dict[col]['no'] +=1
+    dict[col][center]['no'] +=1
+
+def getColList(df,colList):
+    lst = []
+    for col in colList:
+        lst.append(df[col].tolist())
+    return lst
+
+def floatToInt(lst):
+    """
+
+    :param lst: list of float
+    :return: list of int
+    """
+    newlst = []
+    for x in lst:
+        newlst.append(int(x))
+    return newlst
+
+def fixNumeric(data):
+    newData = []
+    for lst in data:
+        newData.append(floatToInt(lst))
+    return newData
+
+takeClosest = lambda num,collection:min(collection,key=lambda x:abs(x-num)) #get closest val
+
+def dictToList(dct,columns):
+    newlst = []
+    for col in columns:
+        newlst.append(dct[col].tolist())
+    return newlst
+
+def getClass(classDict,row,colList,kmean):
+    '''
+
+    :param classDict: classification dict
+    :param row: raw of data
+    :param colList: list of column
+    :param kmean: k-mean dict
+    :return:
+    '''
+    yes = 0
+    no = 0
+    for col in colList:
+        tmp = takeClosest(row[col],kmean[col])
+        if classDict[col][tmp] == 'yes':
+            yes+=1
+        else:
+            no+=1
+    if yes>no:
+        return 'yes'
+    else:
+        return 'no'
+
+
 
 #testFull
-"""
+
+""" 
 data: List[int] = [1,2,3,8,9,10,15,16,17]
 print(kMean(data,3))
 print(kMean(makeRandomPointList(15),4))
 """
-def K_Means(train, test,struct):
+
+
+def K_MeansClass(train, test,struct):
     """
     check k means for each
     @param train:  cvs file for training the module
@@ -186,27 +250,50 @@ def K_Means(train, test,struct):
     """
     numOfCluster = (int)
     numOfCluster = 5
-    train = Discretize(numOfCluster,train,struct)
-    test = Discretize(numOfCluster,test,struct)
+    #train = Discretize(numOfCluster,train,struct)
+    #test = Discretize(numOfCluster,test,struct)
     column = numericCol(train,struct) #get column names
 
     numOfColumn = len(column)
-    print("column: ",column)
-    print("num of column ", numOfColumn)
-    dict = makeColDict(column)
-    print(dict)
-    incYes(dict,'age')
-    print(dict)
+    numOfRow = len(train)
+    train = train.dropna() #remove NaN raws
 
+    numericColList = getColList(train,column) #list of numeric value
+    kMeanDict = {}
+    for i in range(numOfColumn):
+        kMeanDict[column[i]] = (single_kMean(numericColList[i],numOfCluster))
 
+    yesNoDict = makeColDict(column,kMeanDict)  # init YesNo class counter
 
-structFile= 'Structure.txt'
-trainFile='train.csv'
-testFile="test.csv"
-train = pd.read_csv(trainFile)
-test = pd.read_csv(testFile)
-K_Means(train,test,structFile)
-    
+    #get valss value for each center
+    for i in range(numOfRow):
+        for col in column:
+            if train['class'][i] == 'yes':
+                incYes(yesNoDict,col,takeClosest(train[col][i],kMeanDict[col]))
+            else:
+                incNo(yesNoDict, col, takeClosest(train[col][i], kMeanDict[col]))
+
+    #classification dict
+    classDict = {}
+    tmpDict = {}
+    for col in column:
+        for center in kMeanDict[col]:
+            if yesNoDict[col][center]['yes']>yesNoDict[col][center]['no']:
+                tmpDict[center] = 'yes'
+            else:
+                tmpDict[center] = 'no'
+        classDict[col] = tmpDict
+
+    #TODO test file
+    test = test.dropna()
+    test = test.reset_index(drop=True)
+    yes = 0
+    for i in range(len(test)):
+        row = test.loc[19,:] # getRow
+        if getClass(classDict,row,column,kMeanDict) == test['class'][i]:
+            yes+=1
+
+    print("success rate for K-Means is: ",(yes/len(test))*100,"%")
 
 
 
