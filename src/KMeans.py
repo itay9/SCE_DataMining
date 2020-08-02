@@ -6,7 +6,7 @@ from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
 from src.functions import Discretize, getColumnTitles
-
+import pandas as pd
 
 def makeZero(dataSet):
     """
@@ -107,6 +107,16 @@ plt.scatter(cList[0],cList[1])
 plt.show()
 """
 
+
+def numericCol(table, structureTextFile):
+    structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
+    column = []
+    headers = getColumnTitles(table)
+    for i in range(structure.shape[0]):
+        if 'NUMERIC' in structure.loc[i]['data']:
+            column += [headers[i]]
+    return column
+
 def single_kMean(data,cluster = 4):
     """
     works for 1D and 2D data list
@@ -131,6 +141,35 @@ def single_kMean(data,cluster = 4):
         cList = center
     return cList
 
+def makeColDict(columns):
+    """
+
+    :param columns: dict of columns name and class count
+    :return: dict of colName : yes no count
+    """
+    colDict = {}
+    for col in columns:
+        colDict[col] = {'yes': 0, 'no': 0}
+    return colDict
+
+def incYes(dict,col):
+    """
+
+    :param dict: counter dict
+    :param col: column name for inc
+    :return: adding 1 yo yesClass count
+    """
+    dict[col]['yes'] +=1
+
+def incNo(dict,col):
+    """
+
+        :param dict: counter dict
+        :param col: column name for inc
+        :return: adding 1 to noClass count
+        """
+    dict[col]['no'] +=1
+
 #testFull
 """
 data: List[int] = [1,2,3,8,9,10,15,16,17]
@@ -149,9 +188,24 @@ def K_Means(train, test,struct):
     numOfCluster = 5
     train = Discretize(numOfCluster,train,struct)
     test = Discretize(numOfCluster,test,struct)
-    column = getColumnTitles(train)
-    numOfColumn = len(column)
+    column = numericCol(train,struct) #get column names
 
+    numOfColumn = len(column)
+    print("column: ",column)
+    print("num of column ", numOfColumn)
+    dict = makeColDict(column)
+    print(dict)
+    incYes(dict,'age')
+    print(dict)
+
+
+
+structFile= 'Structure.txt'
+trainFile='train.csv'
+testFile="test.csv"
+train = pd.read_csv(trainFile)
+test = pd.read_csv(testFile)
+K_Means(train,test,structFile)
     
 
 
