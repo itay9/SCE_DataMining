@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import matplotlib.pyplot as plt
-from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
+from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature, fit_transforms
 from sklearn.feature_extraction import DictVectorizer
 
 from functions import getColumnTitles, Discretize
@@ -46,36 +46,35 @@ def feature(feature, df):
     x = df.drop(feature, axis=1)
     return x, y
 
-def TestTrainFitPlot(X, y):
+def TestTrainFitPlot(train, test):
     # Setup arrays to store train and test accuracies
     # Split into training and test set
     neighbors = np.arange(1, 20)
     train_accuracy = np.empty(len(neighbors))
     test_accuracy = np.empty(len(neighbors))
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42, stratify=y)
-    # Try KNN with another neighbors
+    target_train = train['class']
+    inputs_train = train.drop('class', axis='columns')
+    target_test = test['class']
+    inputs_test = test.drop('class', axis='columns')
+    inputs_train = fit_transforms(inputs_train)
+    inputs_test = fit_transforms(inputs_test)
     knn = KNeighborsClassifier()
-    # Fit training data
-    knn.fit(X_train, y_train)
-    # save the model to disk
+    knn.fit(inputs_train, target_train)
+    # save model to file
     filename = 'KNN_model.sav'
     joblib.dump(knn, open(filename, 'wb'))
 
-    # load the model from disk
-    #loaded_model = joblib.load(open(filename, 'rb'))
-#    result = loaded_model.score(X_test, Y_test)
-    # print(result)
     # Check Accuracy Score
-    print('KNN Accuracy: {}'.format(round(knn.score(X_test, y_test), 3)))
+    print('KNN Accuracy: {}'.format(round(knn.score(inputs_test, target_test), 3)))
     # Enum Loop, accuracy results using range on 'n' values for KNN Classifier
     for acc, n in enumerate(neighbors):
         # Try KNeighbors with each of 'n' neighbors
         knn = KNeighborsClassifier(n_neighbors=n)
-        knn.fit(X_train, y_train)
+        knn.fit(inputs_train, target_train)
         # Training Accuracy
-        train_accuracy[acc] = knn.score(X_train, y_train)
+        train_accuracy[acc] = knn.score(inputs_train, target_train)
         # Testing Accuracy
-        test_accuracy[acc] = knn.score(X_test, y_test)
+        test_accuracy[acc] = knn.score(inputs_test, target_test)
     # set plot style
     plt.style.use('ggplot')
     plt.title('KNN Neighbors')
@@ -97,11 +96,14 @@ def TestTrainFitPlot(X, y):
     # Plotting
     # Set Main Title
 
-def KNNClassifier(train2, structFile):
+def KNNClassifier(test2,train2, structFile):
     train = Discretize(numOfBins, train2, structFile)
+    test = Discretize(numOfBins, test2, structFile)
     encode = Encode(train,structFile)
-    x, y = feature("class",encode)
-    TestTrainFitPlot(x, y)
+    encode_ = Encode(test,structFile)
+    x = feature("class",encode)
+    y = feature("class",encode_)
+    TestTrainFitPlot(train,test)
 
 
 
