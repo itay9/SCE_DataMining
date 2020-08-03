@@ -1,16 +1,13 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
-
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
-
 import joblib
-
 from src.functions import Discretize, getColumnTitles
 import pandas as pd
-
+from src.Evaluation import buildMatrix
+from src.Evaluation import Eval
 def makeZero(dataSet):
     """
 
@@ -30,12 +27,13 @@ def makeCenterList(data):
     @param data: list of CenterPoint for 1D K-Means
     @return: fixed list of center
     """
-    newData =[]
+    newData = []
     for i in range(len(data)):
         newData.append(int(data[i][0]))
     return newData
 
-def makePoint(data1,data2):
+
+def makePoint(data1, data2):
     """
 
     @param data1: list of X value
@@ -44,10 +42,8 @@ def makePoint(data1,data2):
     """
     result = []
     for i in range(len(data1)):
-        result.append((data1[i],data2[i]))
+        result.append((data1[i], data2[i]))
     return result
-
-
 
 
 def makeRandomPointList(numOfPoint):
@@ -59,8 +55,9 @@ def makeRandomPointList(numOfPoint):
     """
     data = []
     for i in range(numOfPoint):
-        data.append((randint(0,100),(randint(0,100))))
+        data.append((randint(0, 100), (randint(0, 100))))
     return data
+
 
 def makeXYlist(data):
     """
@@ -75,11 +72,12 @@ def makeXYlist(data):
     for i in range(len(data)):
         xList.append(data[i][0])
         yList.append(data[i][1])
-    result = [xList,yList]
+    result = [xList, yList]
     return result
 
-#Test
-#make single line K-Mean
+
+# Test
+# make single line K-Mean
 """
 data: List[int] = [1,2,3,8,9,10,15,16,17]
 kmeans = KMeans(n_clusters=3)
@@ -97,7 +95,7 @@ plt.xticks(list(range(20)))
 plt.show()
 """
 
-#make 2D K-Mean
+# make 2D K-Mean
 """
 pList = makeRandomPointList(20)
 kmeans = KMeans(n_clusters=6)
@@ -121,32 +119,34 @@ def numericCol(table, structureTextFile):
             column += [headers[i]]
     return column
 
-def single_kMean(data,cluster = 4):
+
+def single_kMean(data, cluster=4):
     """
     works for 1D and 2D data list
     @param data: list of data
     @param cluster: number of cluster, default = 4
     @return: list of K-Mean Cluster
     """
-    #if isinstance(data[0],int):
+    # if isinstance(data[0],int):
     dimension = 1
     """
     else:
         dimension = 2"""
     cList = []
     kmeans = KMeans(n_clusters=cluster)
-    #if dimension==1:#fix 1D bug
-    kmeans.fit(makePoint(data, makeZero(data))) #tranfer to 2D
+    # if dimension==1:#fix 1D bug
+    kmeans.fit(makePoint(data, makeZero(data)))  # tranfer to 2D
     """else:
         kmeans.fit(data)"""
-    center = kmeans.cluster_centers_  #calc cluster center
-   # if dimension==1: #fix 1D bug
+    center = kmeans.cluster_centers_  # calc cluster center
+    # if dimension==1: #fix 1D bug
     cList = makeCenterList(center)
     """elif dimension==2:
         cList = center"""
     return cList
 
-def makeColDict(columns,cluster):
+
+def makeColDict(columns, cluster):
     """
 
     :param columns: dict of columns name and class count
@@ -157,34 +157,38 @@ def makeColDict(columns,cluster):
     tmpDict = {}
     for col in columns:
         for val in cluster[col]:
-            tmpDict[val] = {'yes' : 0,'no':0}
+            tmpDict[val] = {'yes': 0, 'no': 0}
         colDict[col] = tmpDict
 
     return colDict
 
-def incYes(dict,col,center):
+
+def incYes(dict, col, center):
     """
 
     :param dict: counter dict
     :param col: column name for inc
     :return: adding 1 yo yesClass count
     """
-    dict[col][center]['yes'] +=1
+    dict[col][center]['yes'] += 1
 
-def incNo(dict,col,center):
+
+def incNo(dict, col, center):
     """
 
         :param dict: counter dict
         :param col: column name for inc
         :return: adding 1 to noClass count
         """
-    dict[col][center]['no'] +=1
+    dict[col][center]['no'] += 1
 
-def getColList(df,colList):
+
+def getColList(df, colList):
     lst = []
     for col in colList:
         lst.append(df[col].tolist())
     return lst
+
 
 def floatToInt(lst):
     """
@@ -197,21 +201,25 @@ def floatToInt(lst):
         newlst.append(int(x))
     return newlst
 
+
 def fixNumeric(data):
     newData = []
     for lst in data:
         newData.append(floatToInt(lst))
     return newData
 
-takeClosest = lambda num,collection:min(collection,key=lambda x:abs(x-num)) #get closest val
 
-def dictToList(dct,columns):
+takeClosest = lambda num, collection: min(collection, key=lambda x: abs(x - num))  # get closest val
+
+
+def dictToList(dct, columns):
     newlst = []
     for col in columns:
         newlst.append(dct[col].tolist())
     return newlst
 
-def getClass(classDict,row,colList,kmean):
+
+def getClass(classDict, row, colList, kmean):
     '''
 
     :param classDict: classification dict
@@ -223,19 +231,18 @@ def getClass(classDict,row,colList,kmean):
     yes = 0
     no = 0
     for col in colList:
-        tmp = takeClosest(row[col],kmean[col])
+        tmp = takeClosest(row[col], kmean[col])
         if classDict[col][tmp] == 'yes':
-            yes+=1
+            yes += 1
         else:
-            no+=1
-    if yes>no:
+            no += 1
+    if yes > no:
         return 'yes'
     else:
         return 'no'
 
 
-
-#testFull
+# testFull
 
 """ 
 data: List[int] = [1,2,3,8,9,10,15,16,17]
@@ -244,7 +251,7 @@ print(kMean(makeRandomPointList(15),4))
 """
 
 
-def K_MeansClass(test, train,struct):
+def K_MeansClass(test, train, struct):
     """
     check k means for each
     @param train:  cvs file for training the module
@@ -254,47 +261,57 @@ def K_MeansClass(test, train,struct):
     """
     numOfCluster = (int)
     numOfCluster = 5
-    column = numericCol(train,struct) #get column names
-
+    column = numericCol(train, struct)  # get column names
     numOfColumn = len(column)
-    train = train.dropna() #remove NaN raws
+    #train = train.dropna()  # remove NaN raws
     train = train.reset_index(drop=True)
     numOfRow = len(train)
-    numericColList = getColList(train,column) #list of numeric value
+    numericColList = getColList(train, column)  # list of numeric value
     kMeanDict = {}
     for i in range(numOfColumn):
-        kMeanDict[column[i]] = (single_kMean(numericColList[i],numOfCluster))
+        kMeanDict[column[i]] = (single_kMean(numericColList[i], numOfCluster))
 
-    yesNoDict = makeColDict(column,kMeanDict)  # init YesNo class counter
+    yesNoDict = makeColDict(column, kMeanDict)  # init YesNo class counter
 
-    #get valss value for each center
+    # get valss value for each center
     for i in range(numOfRow):
         for col in column:
             if train['class'][i] == 'yes':
-                incYes(yesNoDict,col,takeClosest(train[col][i],kMeanDict[col]))
+                incYes(yesNoDict, col, takeClosest(train[col][i], kMeanDict[col]))
             else:
                 incNo(yesNoDict, col, takeClosest(train[col][i], kMeanDict[col]))
 
-    #classification dict
+    # classification dict
     classDict = {}
     tmpDict = {}
     for col in column:
         for center in kMeanDict[col]:
-            if yesNoDict[col][center]['yes']>yesNoDict[col][center]['no']:
+            if yesNoDict[col][center]['yes'] > yesNoDict[col][center]['no']:
                 tmpDict[center] = 'yes'
             else:
                 tmpDict[center] = 'no'
         classDict[col] = tmpDict
 
     # test file
-    test = test.dropna()
+    #test = test.dropna()
     test = test.reset_index(drop=True)
-    yes = 0
+    tp = 0
+    tn = 0
+    fp = 0
+    fn = 0
     for i in range(len(test)):
-        row = test.loc[i,:] # getRow
-        if getClass(classDict,row,column,kMeanDict) == test['class'][i]:
-            yes+=1
-    print("success rate for K-Means in test file is: ",(yes/len(test))*100,"%")
+        row = test.loc[i, :]  # getRow
+        if getClass(classDict, row, column, kMeanDict) == 'yes':
+            if test['class'][i] == 'yes':
+                tp += 1
+            else:
+                fp +=1
+        else:
+            if test['class'][i] == 'yes':
+                fn+=1
+            else:
+                tn+=1
+    Eval(tp,tn,fp,fn)
 
     filename = 'K-means_model.sav'
     joblib.dump(kMeanDict, filename)
@@ -303,8 +320,4 @@ def K_MeansClass(test, train,struct):
         if getClass(classDict, row, column, kMeanDict) == test['class'][i]:
             yes += 1
     print("success rate for K-Means in train file is: ", (yes / len(test)) * 100, "%")"""
-
-
-
-
 
