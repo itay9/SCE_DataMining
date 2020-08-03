@@ -182,14 +182,22 @@ def result(arrayExpected, arrayTest):
     :param arrayExpected:
     :param arrayTest:
     """
-    match = 0;
-    fail = 0;
+    match_yes = 0;
+    match_no = 0;
+    fail_no = 0;
+    fail_yes = 0;
     for _ in range(len(arrayExpected)):
         if arrayExpected[_] != None and arrayTest[_] != None:
             if arrayExpected[_] == arrayTest[_]:
-                match += 1
+                if arrayExpected[_]=='yes':
+                    match_yes += 1
+                else:
+                    match_no += 1
             else:
-                fail += 1
+                if arrayExpected[_]=='yes':
+                    fail_yes += 1
+                else:
+                    fail_no+=1
     # print('Matched values:', match)
     # print('NON-Matched:', fail)
     print('ID3 Accuracy:', (match / (match + fail)), '%')

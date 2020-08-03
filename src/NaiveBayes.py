@@ -33,8 +33,10 @@ def naiveBayes(test, train, structFile):
 
     thisDict=allArraysOfFetures(train, 'class')
     rows = test.shape[0]
-    classMatch = 0
-    classDismatch = 0
+    match_yes = 0;
+    match_no = 0;
+    fail_no = 0;
+    fail_yes = 0;
     # save model to file
     filename = 'naiveBayes_model.sav'
     joblib.dump(thisDict, filename)
@@ -53,14 +55,14 @@ def naiveBayes(test, train, structFile):
                 continue
         if yesPar > noPar:
             if test.iloc[_]['class'] == 'yes':
-                classMatch += 1
+                match_yes += 1
             else:
-                classDismatch += 1
+                fail_yes += 1
         else:
             if test.iloc[_]['class'] == 'no':
-                classMatch += 1
+                match_no += 1
             else:
-                classDismatch += 1
-    print('naiveBayes accuracy:', (classMatch / rows), '%')
+                fail_no += 1
+    #print('naiveBayes accuracy:', ((match_yes+match_no)) / rows), '%')
 
 
