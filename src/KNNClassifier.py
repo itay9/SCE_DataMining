@@ -21,7 +21,9 @@ def numericCol(table, structureTextFile):
             column += [headers[i]]
     return column
 
-def Encode(train,Structure):
+def Encode(
+
+        train,Structure):
     # creating labelEncoder
     le = preprocessing.LabelEncoder()
     # Converting string labels into numbers.
@@ -96,9 +98,7 @@ def TestTrainFitPlot(train, test):
     # Plotting
     # Set Main Title
 
-def KNNClassifier(test2,train2, structFile):
-    train = Discretize(numOfBins, train2, structFile)
-    test = Discretize(numOfBins, test2, structFile)
+def KNNClassifier(test,train, structFile):
     encode = Encode(train,structFile)
     encode_ = Encode(test,structFile)
     x = feature("class",encode)
