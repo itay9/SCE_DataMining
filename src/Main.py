@@ -5,22 +5,35 @@ from KNNClassifier import KNNClassifier
 from id3 import ID3_algorithm
 from id3SKlearn import ID3SKlearn_algorithm
 from sklearnNaiveBayes import sklearnNaiveBayes
+from PreProcess import menu, preProcess
 
-"""#command line interface (CLI) (bonus)
-path=sys.argv[1]
-structFile= path+'/Structure.txt'
-trainFile=path+'/train.csv'
-testFile=path+'/test.csv'
-"C:/Users/ChenAzulai/jupyter"
-"""
-structFile= 'C:/Users/ChenAzulai/jupyter/Structure.txt'
-trainFile="C:/Users/ChenAzulai/jupyter/train.csv"
-testFile="C:/Users/ChenAzulai/jupyter/test.csv"
+def algo(i):
+    switcher = {
+        1: naiveBayes,
+        2: sklearnNaiveBayes,
+        3: ID3_algorithm,
+        4: ID3SKlearn_algorithm,
+        5: KNNClassifier
+    }
+    return switcher[i](test, train, structFile)
 
-train = pd.read_csv(trainFile)
-test = pd.read_csv(testFile)
-naiveBayes(test,train,structFile)
-sklearnNaiveBayes(test,train,structFile)
-ID3_algorithm(train,test,structFile)
-ID3SKlearn_algorithm(train,test,structFile)
-KNNClassifier(train,structFile)
+
+# command line interface (CLI) (bonus)
+path = sys.argv[1]
+structFile = path + '/Structure.txt'
+trainFile = path + '/train.csv'
+testFile = path + '/test.csv'
+#"C:/Users/ChenAzulai/jupyter"
+
+'''structFile = 'C:/Users/ChenAzulai/jupyter/Structure.txt'
+trainFile = "C:/Users/ChenAzulai/jupyter/train.csv"
+testFile = "C:/Users/ChenAzulai/jupyter/test.csv"
+path = "C:/Users/ChenAzulai/jupyter"
+'''
+menu = menu()
+train = preProcess(trainFile, structFile, menu)
+train.to_csv(path + '/train_clean.csv')
+test = preProcess(testFile, structFile, menu)
+train.to_csv(path + '/test_clean.csv')
+algo(menu['algorithm'])
+

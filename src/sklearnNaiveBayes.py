@@ -1,15 +1,11 @@
 import joblib
 
-from functions import getColumnTitles, Discretize, fit_transforms
+from functions import fit_transforms
 from sklearn.naive_bayes import GaussianNB
 from sklearn import preprocessing
-numOfBins=3
-def sklearnNaiveBayes(test, train,structure):
+def sklearnNaiveBayes(test, train, structFile):
     model=GaussianNB()
     le=preprocessing.LabelEncoder()
-
-    train = Discretize(numOfBins, train, structure)
-    test = Discretize(numOfBins, test, structure)
 
     target_train=train['class']
     inputs_train=train.drop('class',axis='columns')

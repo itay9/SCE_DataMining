@@ -1,10 +1,8 @@
 from sklearn.tree import DecisionTreeClassifier
-from functions import Discretize,fit_transforms
+from functions import fit_transforms
+import joblib
 
-numOfBins=3
-def ID3SKlearn_algorithm(train,test,structure):
-    train = Discretize(numOfBins, train, structure)
-    test = Discretize(numOfBins, test, structure)
+def ID3SKlearn_algorithm(test,train,structFile):
 
     train=fit_transforms(train)
     train_target= train['class']

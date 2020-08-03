@@ -97,7 +97,7 @@ def TestTrainFitPlot(X, y):
     # Plotting
     # Set Main Title
 
-def KNNClassifier(train2, structFile):
+def KNNClassifier(train2,test , structFile):
     train = Discretize(numOfBins, train2, structFile)
     encode = Encode(train,structFile)
     x, y = feature("class",encode)
