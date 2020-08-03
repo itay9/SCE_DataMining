@@ -1,4 +1,4 @@
-import Decision_tree as Decision_tree
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -254,12 +254,10 @@ def K_MeansClass(test, train,struct):
     """
     numOfCluster = (int)
     numOfCluster = 5
-    #train = Discretize(numOfCluster,train,struct)
-    #test = Discretize(numOfCluster,test,struct)
     column = numericCol(train,struct) #get column names
 
     numOfColumn = len(column)
-    #train = train.dropna() #remove NaN raws
+    train = train.dropna() #remove NaN raws
     train = train.reset_index(drop=True)
     numOfRow = len(train)
     numericColList = getColList(train,column) #list of numeric value
@@ -289,7 +287,7 @@ def K_MeansClass(test, train,struct):
         classDict[col] = tmpDict
 
     # test file
-    #test = test.dropna()
+    test = test.dropna()
     test = test.reset_index(drop=True)
     yes = 0
     for i in range(len(test)):
@@ -298,8 +296,8 @@ def K_MeansClass(test, train,struct):
             yes+=1
     print("success rate for K-Means in test file is: ",(yes/len(test))*100,"%")
 
-    filename = 'KNN_model.sav'
-    joblib.dump(Decision_tree, filename)
+    filename = 'K-means_model.sav'
+    joblib.dump(kMeanDict, filename)
     """for i in range(len(train)):
         row = train.loc[i, :]  # getRow
         if getClass(classDict, row, column, kMeanDict) == test['class'][i]:
