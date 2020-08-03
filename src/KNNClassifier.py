@@ -69,6 +69,7 @@ def TestTrainFitPlot(train, test):
     # Check Accuracy Score
     print('KNN Accuracy: {}'.format(round(knn.score(inputs_test, target_test), 3)))
     # Enum Loop, accuracy results using range on 'n' values for KNN Classifier
+    '''
     for acc, n in enumerate(neighbors):
         # Try KNeighbors with each of 'n' neighbors
         knn = KNeighborsClassifier(n_neighbors=n)
@@ -97,6 +98,7 @@ def TestTrainFitPlot(train, test):
     plt.show()
     # Plotting
     # Set Main Title
+    '''
 
 def KNNClassifier(test,train, structFile):
     encode = Encode(train,structFile)
