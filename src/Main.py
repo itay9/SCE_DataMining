@@ -36,3 +36,5 @@ train.to_csv(path + '/train_clean.csv')
 test = preProcess(testFile, structFile, menu)
 train.to_csv(path + '/test_clean.csv')
 algo(menu['algorithm'])
+
+
