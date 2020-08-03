@@ -255,7 +255,7 @@ def K_MeansClass(test, train,struct):
     column = numericCol(train,struct) #get column names
 
     numOfColumn = len(column)
-    train = train.dropna() #remove NaN raws
+    #train = train.dropna() #remove NaN raws
     train = train.reset_index(drop=True)
     numOfRow = len(train)
     numericColList = getColList(train,column) #list of numeric value
@@ -285,7 +285,7 @@ def K_MeansClass(test, train,struct):
         classDict[col] = tmpDict
 
     # test file
-    test = test.dropna()
+    #test = test.dropna()
     test = test.reset_index(drop=True)
     yes = 0
     for i in range(len(test)):
