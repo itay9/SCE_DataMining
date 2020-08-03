@@ -8,7 +8,7 @@ from random import randint
 
 import joblib
 
-from src.functions import Discretize, getColumnTitles
+from functions import Discretize, getColumnTitles
 import pandas as pd
 
 def makeZero(dataSet):
