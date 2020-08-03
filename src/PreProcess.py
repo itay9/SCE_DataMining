@@ -1,3 +1,9 @@
+"""
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+"""
+
 import pandas as pd
 from sklearn import preprocessing
 
@@ -27,11 +33,11 @@ def menu():
             numOfBins = int(input('Enter number of bins:'))
         menuDict['discBins'] = numOfBins
     algo = 0
-    while algo < 1 or algo > 5:
+    while algo < 1 or algo > 6:
         algo = int(input('Choose algorithm: \n1 for naiveBayes \n2 for SKlearn_NaiveBayes \n3 for ID3 \n4 for '
-                         'SKlearn_ID3 \n5 for KNNClassifier \n:'))
+                         'SKlearn_ID3 \n5 for KNNClassifier \n6 for KMeans \n:'))
     menuDict['algorithm'] = algo
-    return menuDictS
+    return menuDict
 
 
 def preProcess(table, structureTextFile, menuDict):

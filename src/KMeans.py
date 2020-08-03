@@ -1,6 +1,8 @@
-
-import numpy as np
-import matplotlib.pyplot as plt
+"""
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+"""
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -8,7 +10,7 @@ from random import randint
 
 import joblib
 
-from src.functions import Discretize, getColumnTitles
+from functions import Discretize, getColumnTitles
 import pandas as pd
 
 def makeZero(dataSet):

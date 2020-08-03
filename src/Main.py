@@ -1,5 +1,11 @@
-import pandas as pd
+"""
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+"""
 import sys
+
+from KMeans import K_MeansClass
 from NaiveBayes import naiveBayes
 from KNNClassifier import KNNClassifier
 from id3 import ID3_algorithm
@@ -13,7 +19,8 @@ def algo(i):
         2: sklearnNaiveBayes,
         3: ID3_algorithm,
         4: ID3SKlearn_algorithm,
-        5: KNNClassifier
+        5: KNNClassifier,
+        6: K_MeansClass
     }
     return switcher[i](test, train, structFile)
 
@@ -23,7 +30,6 @@ path = sys.argv[1]
 structFile = path + '/Structure.txt'
 trainFile = path + '/train.csv'
 testFile = path + '/test.csv'
-#"C:/Users/ChenAzulai/jupyter"
 
 '''structFile = 'C:/Users/ChenAzulai/jupyter/Structure.txt'
 trainFile = "C:/Users/ChenAzulai/jupyter/train.csv"
