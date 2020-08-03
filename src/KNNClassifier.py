@@ -1,49 +1,16 @@
+
 """
 Itay dali 204711196
 David Toubul 342395563
 Chen Azulay 201017159
 """
 from sklearn.model_selection import train_test_split
+
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn import preprocessing
-import pandas as pd
-import numpy as np
 import joblib
-import matplotlib.pyplot as plt
-from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature, fit_transforms
-from sklearn.feature_extraction import DictVectorizer
-
-from functions import getColumnTitles, Discretize
-
-numOfBins = 3
-
-def numericCol(table, structureTextFile):
-    structure = pd.read_csv(structureTextFile, sep=" ", names=['type', 'feature', 'data'])
-    column = []
-    headers = getColumnTitles(table)
-    for i in range(structure.shape[0]):
-        if 'NUMERIC' in structure.loc[i]['data']:
-            column += [headers[i]]
-    return column
-
-def Encode(train,Structure):
-    # creating labelEncoder
-    le = preprocessing.LabelEncoder()
-    # Converting string labels into numbers.
-    numeri_col = numericCol(train, Structure)
-    column = []
-    features2 = {}
-    for i in range(len(train.columns)):
-        weather_encoded = le.fit_transform(train[train.columns[i]])
-        features2.update({train.columns[i]: weather_encoded.tolist()})
-    df = pd.DataFrame(features2, columns=getColumnTitles(train))
-    return df
+from functions import fit_transforms
 
 
-def loadFile(path):
-    # Load Excel File into Pandas DataFrame
-    df = pd.read_csv(path)
-    return df
 
 def feature(feature, df):
     # Create arrays for the features and the response variable
@@ -54,9 +21,6 @@ def feature(feature, df):
 def TestTrainFitPlot(train, test):
     # Setup arrays to store train and test accuracies
     # Split into training and test set
-    neighbors = np.arange(1, 20)
-    train_accuracy = np.empty(len(neighbors))
-    test_accuracy = np.empty(len(neighbors))
     target_train = train['class']
     inputs_train = train.drop('class', axis='columns')
     target_test = test['class']
@@ -68,10 +32,17 @@ def TestTrainFitPlot(train, test):
     # save model to file
     filename = 'KNN_model.sav'
     joblib.dump(knn, open(filename, 'wb'))
-
     # Check Accuracy Score
     print('KNN Accuracy: {}'.format(round(knn.score(inputs_test, target_test), 3)))
     # Enum Loop, accuracy results using range on 'n' values for KNN Classifier
+    ''' 
+    #if we want to check with many different neighbours and do graph , 
+    loop and we put the accuracy test and train in toz disctincts array and after build 
+    graph and we can see whats is the best neighbours we need to take 
+    
+    neighbors = np.arange(1, 20)
+    train_accuracy = np.empty(len(neighbors))
+    test_accuracy = np.empty(len(neighbors))
     for acc, n in enumerate(neighbors):
         # Try KNeighbors with each of 'n' neighbors
         knn = KNeighborsClassifier(n_neighbors=n)
@@ -100,12 +71,11 @@ def TestTrainFitPlot(train, test):
     plt.show()
     # Plotting
     # Set Main Title
+    '''
 
-def KNNClassifier(test2,train2, structFile):
-    train = Discretize(numOfBins, train2, structFile)
-    test = Discretize(numOfBins, test2, structFile)
-    encode = Encode(train,structFile)
-    encode_ = Encode(test,structFile)
+def KNNClassifier(test,train, structFile):
+    encode = fit_transforms(train)
+    encode_ = fit_transforms(test)
     x = feature("class",encode)
     y = feature("class",encode_)
     TestTrainFitPlot(train,test)
