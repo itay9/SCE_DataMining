@@ -7,7 +7,7 @@ Chen Azulay 201017159
 import joblib
 
 from functions import getColumnTitles,  valuesType, pArrayByFeature
-
+from Evaluation import Eval
 def allArraysOfFetures(table, classCol):
     """
 
@@ -64,5 +64,5 @@ def naiveBayes(test, train, structFile):
             else:
                 fail_no += 1
     #print('naiveBayes accuracy:', ((match_yes+match_no)) / rows), '%')
-
+    Eval(match_yes,match_no,fail_yes,fail_no)
 
