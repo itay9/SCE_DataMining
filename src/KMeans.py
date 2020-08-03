@@ -1,3 +1,10 @@
+"""
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+"""
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs

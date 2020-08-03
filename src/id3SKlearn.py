@@ -1,3 +1,8 @@
+'''
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+'''
 from sklearn.tree import DecisionTreeClassifier
 from functions import fit_transforms
 import joblib
