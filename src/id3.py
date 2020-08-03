@@ -190,7 +190,7 @@ def result(arrayExpected, arrayTest):
     print('ID3 Accuracy:', (match / (match + fail)), '%')
 
 
-def ID3_algorithm(train,test,structFile):
+def ID3_algorithm(test,train,structFile):
     """
     main program
     :param train:
@@ -198,8 +198,6 @@ def ID3_algorithm(train,test,structFile):
     :param structFile:
     """
 
-    train = Discretize(numOfBins, train, structFile)
-    test = Discretize(numOfBins, test, structFile)
     attributes = Build_Dict(open(structFile))
     attrList = list(attributes.keys())
     attrList.remove('class')

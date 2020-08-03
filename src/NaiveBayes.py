@@ -1,12 +1,6 @@
 import joblib
-import pandas as pd
 
-from functions import getColumnTitles, Discretize, valuesType, pArrayByFeature
-
-
-numOfBins = 3
-
-
+from functions import getColumnTitles,  valuesType, pArrayByFeature
 
 def allArraysOfFetures(table, classCol):
     """
@@ -23,17 +17,14 @@ def allArraysOfFetures(table, classCol):
                 # print(pArrayByFeature(train,i,j,classCol))
     return thisDict
 
-#thisDict = allArraysOfFetures(train, 'class')
-
-def naiveBayes(test, train,structure):
+def naiveBayes(test, train, structFile):
     """
     print the accuracy of the model by test file
     :param test:
     :param train:
     :param structure:
     """
-    train = Discretize(numOfBins, train, structure)
-    test = Discretize(numOfBins, test, structure)
+
     thisDict=allArraysOfFetures(train, 'class')
     rows = test.shape[0]
     classMatch = 0
@@ -64,8 +55,6 @@ def naiveBayes(test, train,structure):
                 classMatch += 1
             else:
                 classDismatch += 1
-    #print('classMatch:', classMatch)
-    #print('classDismatch:', classDismatch)
     print('naiveBayes accuracy:', (classMatch / rows), '%')
 
 

@@ -15,4 +15,4 @@ Packages:
   - pyitlib
   - joblib
   - sys
-
+  - entropy_based_binning
