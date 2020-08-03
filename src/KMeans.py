@@ -1,9 +1,13 @@
+import Decision_tree as Decision_tree
 import numpy as np
 import matplotlib.pyplot as plt
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
+
+import joblib
+
 from src.functions import Discretize, getColumnTitles
 import pandas as pd
 
@@ -294,6 +298,8 @@ def K_MeansClass(test, train,struct):
             yes+=1
     print("success rate for K-Means in test file is: ",(yes/len(test))*100,"%")
 
+    filename = 'KNN_model.sav'
+    joblib.dump(Decision_tree, filename)
     """for i in range(len(train)):
         row = train.loc[i, :]  # getRow
         if getClass(classDict, row, column, kMeanDict) == test['class'][i]:
