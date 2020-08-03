@@ -23,9 +23,9 @@ testFile="test.csv"
 
 train = pd.read_csv(trainFile)
 test = pd.read_csv(testFile)
-naiveBayes(test,train,structFile)
+"""naiveBayes(test,train,structFile)
 sklearnNaiveBayes(test,train,structFile)
 ID3_algorithm(train,test,structFile)
 ID3SKlearn_algorithm(train,test,structFile)
-KNNClassifier(train,structFile)
-K_MeansClass(train,test,structFile)
+KNNClassifier(train,structFile)"""
+K_MeansClass(test,train,structFile)

@@ -240,7 +240,7 @@ print(kMean(makeRandomPointList(15),4))
 """
 
 
-def K_MeansClass(train, test,struct):
+def K_MeansClass(test, train,struct):
     """
     check k means for each
     @param train:  cvs file for training the module
@@ -255,7 +255,7 @@ def K_MeansClass(train, test,struct):
     column = numericCol(train,struct) #get column names
 
     numOfColumn = len(column)
-    train = train.dropna() #remove NaN raws
+    #train = train.dropna() #remove NaN raws
     train = train.reset_index(drop=True)
     numOfRow = len(train)
     numericColList = getColList(train,column) #list of numeric value
@@ -284,15 +284,21 @@ def K_MeansClass(train, test,struct):
                 tmpDict[center] = 'no'
         classDict[col] = tmpDict
 
-    #TODO test file
-    test = test.dropna()
+    # test file
+    #test = test.dropna()
     test = test.reset_index(drop=True)
     yes = 0
     for i in range(len(test)):
-        row = test.loc[19,:] # getRow
+        row = test.loc[i,:] # getRow
         if getClass(classDict,row,column,kMeanDict) == test['class'][i]:
             yes+=1
-    print("success rate for K-Means is: ",(yes/len(test))*100,"%")
+    print("success rate for K-Means in test file is: ",(yes/len(test))*100,"%")
+
+    """for i in range(len(train)):
+        row = train.loc[i, :]  # getRow
+        if getClass(classDict, row, column, kMeanDict) == test['class'][i]:
+            yes += 1
+    print("success rate for K-Means in train file is: ", (yes / len(test)) * 100, "%")"""
 
 
 
