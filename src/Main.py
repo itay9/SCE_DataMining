@@ -1,4 +1,8 @@
-import pandas as pd
+"""
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+"""
 import sys
 
 from KMeans import K_MeansClass

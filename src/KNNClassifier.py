@@ -1,3 +1,8 @@
+"""
+Itay dali 204711196
+David Toubul 342395563
+Chen Azulay 201017159
+"""
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import preprocessing
