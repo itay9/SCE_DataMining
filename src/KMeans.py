@@ -11,10 +11,10 @@ from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from random import randint
 import joblib
-from src.functions import Discretize, getColumnTitles
+from functions import Discretize, getColumnTitles
 import pandas as pd
-from src.Evaluation import buildMatrix
-from src.Evaluation import Eval
+#from Evaluation import buildMatrix
+from Evaluation import Eval
 def makeZero(dataSet):
     """
 

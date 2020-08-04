@@ -10,6 +10,8 @@ def Eval(tp, tn, fp, fn):
     recall = tp / (tp + fn)
     precision = tp / (tp + fp)
     fMeasure = 2 * precision * recall / (precision + recall)
+
+
     print("Evaluation Indicators:")
     print("Accuracy: ", accuracy)
     print("Recall: ", recall)
