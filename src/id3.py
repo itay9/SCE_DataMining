@@ -7,12 +7,10 @@ import joblib
 import numpy as np
 from pyitlib import discrete_random_variable as drv
 from numpy import log2 as log
-
+from Evaluation import Eval
 from functions import Discretize
-
+from KMeans import numericCol
 eps = np.finfo(float).eps
-
-numOfBins = 3
 
 
 # def ig(e_dataset, e_attr):
@@ -74,7 +72,6 @@ def find_winner(df):
 
 
 def bestIGattr(data, attributes, toSplit=False):
-
     """
 
     :param data:
@@ -93,7 +90,7 @@ def bestIGattr(data, attributes, toSplit=False):
             return attr
 
 
-def Build_Dict(data):
+def Build_Dict(data,numOfBins):
     """
 
     :param data:
@@ -111,7 +108,7 @@ def Build_Dict(data):
     return attributes
 
 
-def buildTree(classDict, data, attributes, attrList, toSplit = False,numNodes = 100):
+def buildTree(classDict, data, attributes, attrList, toSplit=False, numNodes=100):
     """
     :param classDict:
     :param data:
@@ -121,7 +118,7 @@ def buildTree(classDict, data, attributes, attrList, toSplit = False,numNodes = 
     :param numNodes:
     :return: the model,tree as a dict
     """
-    if len(data['class'])<=numNodes and len(data['class'])>0:
+    if len(data['class']) <= numNodes and len(data['class']) > 0:
         return data['class'].mode().iloc[0]
     else:
         if len(attrList) > 0:
@@ -189,30 +186,30 @@ def result(arrayExpected, arrayTest):
     for _ in range(len(arrayExpected)):
         if arrayExpected[_] != None and arrayTest[_] != None:
             if arrayExpected[_] == arrayTest[_]:
-                if arrayExpected[_]=='yes':
+                if arrayExpected[_] == 'yes':
                     match_yes += 1
                 else:
                     match_no += 1
             else:
-                if arrayExpected[_]=='yes':
+                if arrayExpected[_] == 'yes':
                     fail_yes += 1
                 else:
-                    fail_no+=1
+                    fail_no += 1
     # print('Matched values:', match)
     # print('NON-Matched:', fail)
-    #print('ID3 Accuracy:', (match / (match + fail)), '%')
-    Eval(match_yes,match_no,fail_yes,fail_no)
+    # print('ID3 Accuracy:', (match / (match + fail)), '%')
+    Eval(match_yes, match_no, fail_yes, fail_no)
 
 
-def ID3_algorithm(test,train,structFile):
+def ID3_algorithm(test, train, structFile):
     """
     main program
     :param train:
     :param test:
     :param structFile:
     """
-
-    attributes = Build_Dict(open(structFile))
+    numOfBins=len(train[numericCol(train,structFile)[0]].unique())
+    attributes = Build_Dict(open(structFile),numOfBins)
     attrList = list(attributes.keys())
     attrList.remove('class')
     Decision_tree = buildTree({}, train, attributes, attrList)
