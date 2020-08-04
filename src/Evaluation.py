@@ -5,11 +5,22 @@ def Eval(tp, tn, fp, fn):
     def fixStr(val, name):
         tmp = name.upper() + " = " + str(val)
         return tmp
-
-    accuracy = (tp + tn) / (tp + tn + fn + fp)
-    recall = tp / (tp + fn)
-    precision = tp / (tp + fp)
-    fMeasure = 2 * precision * recall / (precision + recall)
+    try:
+        accuracy = (tp + tn) / (tp + tn + fn + fp)
+    except ZeroDivisionError:
+        accuracy=0
+    try:
+        recall = tp / (tp + fn)
+    except ZeroDivisionError:
+        recall=0
+    try:
+        precision = tp / (tp + fp)
+    except ZeroDivisionError:
+        precision=0
+    try:
+        fMeasure = 2 * precision * recall / (precision + recall)
+    except ZeroDivisionError:
+        fMeasure=0
 
 
     print("Evaluation Indicators:")
