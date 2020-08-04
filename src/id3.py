@@ -200,7 +200,8 @@ def result(arrayExpected, arrayTest):
                     fail_no+=1
     # print('Matched values:', match)
     # print('NON-Matched:', fail)
-    print('ID3 Accuracy:', (match / (match + fail)), '%')
+    #print('ID3 Accuracy:', (match / (match + fail)), '%')
+    Eval(match_yes,match_no,fail_yes,fail_no)
 
 
 def ID3_algorithm(test,train,structFile):
